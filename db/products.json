@@ -1,0 +1,293 @@
+{
+  "products":
+  {
+    "Płatki owsiane": {
+      "Białko": "11,9",
+      "Węgle": "69,3",
+      "Tłuszcze": "7,2",
+      "Kcal": 366
+    },
+    "Kasza gryczana": {
+      "Białko": "12,6",
+      "Węgle": "69,3",
+      "Tłuszcze": "0,6",
+      "Kcal": 355
+    },
+    "Kasza jaglana": {
+      "Białko": "10,5",
+      "Węgle": "71,6",
+      "Tłuszcze": "2,9",
+      "Kcal": 346
+    },
+    "Ryż biały": {
+      "Białko": "6,7",
+      "Węgle": "78,9",
+      "Tłuszcze": "0,7",
+      "Kcal": 344
+    },
+    "Ziemniaki": {
+      "Białko": "1,9",
+      "Węgle": "18,3",
+      "Tłuszcze": "0,1",
+      "Kcal": 77
+    },
+    "Cieciorka": {
+      "Białko": "7,1",
+      "Węgle": "15,2",
+      "Tłuszcze": "2,1",
+      "Kcal": 117
+    },
+    "Indyk pierś": {
+      "Białko": "19,2",
+      "Węgle": 0,
+      "Tłuszcze": "0,7",
+      "Kcal": 84
+    },
+    "Łosoś": {
+      "Białko": "19,9",
+      "Węgle": 0,
+      "Tłuszcze": "13,6",
+      "Kcal": 201
+    },
+    "Tuńczyk pucha": {
+      "Białko": "23,5",
+      "Węgle": "0,1",
+      "Tłuszcze": "0,5",
+      "Kcal": ""
+    },
+    "Soczewica": {
+      "Białko": "25,4",
+      "Węgle": "48,6",
+      "Tłuszcze": 3,
+      "Kcal": 327
+    },
+    "Oliwa": {
+      "Białko": 0,
+      "Węgle": 0,
+      "Tłuszcze": 92,
+      "Kcal": 828
+    },
+    "Sałata lodowa": {
+      "Białko": "0,9",
+      "Węgle": 3,
+      "Tłuszcze": "0,1",
+      "Kcal": 14
+    },
+    "Ogórek": {
+      "Białko": "0,7",
+      "Węgle": "2,9",
+      "Tłuszcze": "0,1",
+      "Kcal": 14
+    },
+    "Szpinak": {
+      "Białko": "2,6",
+      "Węgle": 3,
+      "Tłuszcze": "0,4",
+      "Kcal": 16
+    },
+    "Brokuł": {
+      "Białko": 3,
+      "Węgle": "5,2",
+      "Tłuszcze": "0,4",
+      "Kcal": 31
+    },
+    "Marchewka": {
+      "Białko": 1,
+      "Węgle": "5,1",
+      "Tłuszcze": "0,2",
+      "Kcal": 33
+    },
+    "Słonecznik": {
+      "Białko": "24,4",
+      "Węgle": "24,6",
+      "Tłuszcze": "43,7",
+      "Kcal": 537
+    },
+    "Orzech włoski": {
+      "Białko": 16,
+      "Węgle": 18,
+      "Tłuszcze": "60,3",
+      "Kcal": 657
+    },
+    "Kakao (łyżka  [10g])": {
+      "Białko": "1,8",
+      "Węgle": "5,1",
+      "Tłuszcze": "2,2",
+      "Kcal": 45
+    },
+    "Czosnek": {
+      "Białko": "6,4",
+      "Węgle": "32,6",
+      "Tłuszcze": "0,5",
+      "Kcal": 146
+    },
+    "Cebula": {
+      "Białko": "1,1",
+      "Węgle": "9,3",
+      "Tłuszcze": "0,1",
+      "Kcal": 40
+    },
+    "Makaron pełnoziarnisty świderki": {
+      "Białko": "15,2",
+      "Węgle": 68,
+      "Tłuszcze": "1,3",
+      "Kcal": 345
+    },
+    "Banan": {
+      "Białko": 1,
+      "Węgle": "23,5",
+      "Tłuszcze": "0,3",
+      "Kcal": 99
+    },
+    "Płatki owsiane melvit": {
+      "Białko": 13,
+      "Węgle": 60,
+      "Tłuszcze": "5,7",
+      "Kcal": 363
+    },
+    "Śledź": {
+      "Białko": "19,8",
+      "Węgle": 0,
+      "Tłuszcze": "15,4",
+      "Kcal": 217
+    },
+    "Jabłko": {
+      "Białko": "0,3",
+      "Węgle": "13,8",
+      "Tłuszcze": "0,2",
+      "Kcal": 52
+    },
+    "Miód (łyżka 25g)": {
+      "Białko": "0,3",
+      "Węgle": "79,5",
+      "Tłuszcze": 0,
+      "Kcal": 324
+    },
+    "Kurczak": {
+      "Białko": "21,5",
+      "Węgle": 0,
+      "Tłuszcze": "1,3",
+      "Kcal": 99
+    },
+    "Ryż brązowy": {
+      "Białko": "7,1",
+      "Węgle": "76,8",
+      "Tłuszcze": "1,9",
+      "Kcal": 370
+    },
+    "Makaron penne": {
+      "Białko": "7,1",
+      "Węgle": "77,4",
+      "Tłuszcze": "1,4",
+      "Kcal": 355
+    },
+    "Pestki dyni": {
+      "Białko": "24,5",
+      "Węgle": 18,
+      "Tłuszcze": "45,8",
+      "Kcal": 556
+    },
+    "Kabanos": {
+      "Białko": 26,
+      "Węgle": 3,
+      "Tłuszcze": 55,
+      "Kcal": 611
+    },
+    "Nektarynka": {
+      "Białko": "1,1",
+      "Węgle": "10,6",
+      "Tłuszcze": "0,3",
+      "Kcal": 44
+    },
+    "Groszek zielony": {
+      "Białko": "4,6",
+      "Węgle": "12,3",
+      "Tłuszcze": "0,8",
+      "Kcal": 86
+    },
+    "Siemie lniane": {
+      "Białko": "18,3",
+      "Węgle": "28,9",
+      "Tłuszcze": "42,2",
+      "Kcal": 534
+    },
+    "Wołowina": {
+      "Białko": "20,1",
+      "Węgle": 0,
+      "Tłuszcze": "3,5",
+      "Kcal": 112
+    },
+    "Kapusta biała": {
+      "Białko": "1,7",
+      "Węgle": "7,4",
+      "Tłuszcze": "0,2",
+      "Kcal": 29
+    },
+    "Truskawka": {
+      "Białko": "0,7",
+      "Węgle": "7,7",
+      "Tłuszcze": "0,3",
+      "Kcal": 32
+    },
+    "Sałata rzymska": {
+      "Białko": 1,
+      "Węgle": 3,
+      "Tłuszcze": 0,
+      "Kcal": 17
+    },
+    "Pomidor": {
+      "Białko": "0,9",
+      "Węgle": "4,1",
+      "Tłuszcze": "0,2",
+      "Kcal": 20
+    },
+    "Orzechy laskowe": {
+      "Białko": 15,
+      "Węgle": 17,
+      "Tłuszcze": 61,
+      "Kcal": 628
+    },
+    "Fasola szparagowa": {
+      "Białko": "2,4",
+      "Węgle": "7,6",
+      "Tłuszcze": "0,2",
+      "Kcal": 27
+    },
+    "Sezam": {
+      "Białko": "23,2",
+      "Węgle": 10,
+      "Tłuszcze": "59,9",
+      "Kcal": 632
+    },
+    "Pulpa pomidorowa": {
+      "Białko": "1,2",
+      "Węgle": "4,3",
+      "Tłuszcze": "0,1",
+      "Kcal": 114
+    },
+    "Bób": {
+      "Białko": "7,9",
+      "Węgle": "17,6",
+      "Tłuszcze": "0,7",
+      "Kcal": 88
+    },
+    "Masło orzechowe": {
+      "Białko": 25,
+      "Węgle": 20,
+      "Tłuszcze": 50,
+      "Kcal": 588
+    },
+    "Arbuz": {
+      "Białko": "0,6",
+      "Węgle": "7,6",
+      "Tłuszcze": "0,2",
+      "Kcal": 30
+    },
+    "Mozzarella": {
+      "Białko": 19,
+      "Węgle": "0,5",
+      "Tłuszcze": 26,
+      "Kcal": 260
+    }
+  }
+}
