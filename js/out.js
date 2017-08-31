@@ -10274,33 +10274,6 @@ var ProductInfo = function (_React$Component) {
     };
 
     _this.handleSubClick = function () {
-      if (_this.state.curWeigth === "" || _this.state.curWeigth === 0) {
-        _this.setState({
-          curWeigth: 100
-        });
-      }
-
-      {/* Suma makro*/}
-      var totalProteinsCopy = _this.state.totalProteins;
-      totalProteinsCopy.push({
-        totalProteins: _this.state.protein
-      });
-
-      var totalCarbsCopy = _this.state.totalCarbs;
-      totalCarbsCopy.push({
-        totalCarbs: _this.state.carbo
-      });
-
-      var totalFatsCopy = _this.state.totalFats;
-      totalFatsCopy.push({
-        totalFats: _this.state.fats
-      });
-
-      var totalCaloriesCopy = _this.state.totalCalories;
-      totalCaloriesCopy.push({
-        totalCalories: _this.state.calories
-      });
-
       {/* Nowy wiersz*/}
       var data = _this.state.newRow;
       data.push({
@@ -10309,15 +10282,11 @@ var ProductInfo = function (_React$Component) {
         carbo: _this.state.carbo,
         fats: _this.state.fats,
         calories: _this.state.calories,
-        weight: _this.state.curWeigth
+        weight: _this.state.curWeigth === "" || _this.state.curWeigth === 0 ? 100 : _this.state.curWeigth
       });
       _this.setState({
         newRow: data,
-        totalProteins: totalProteinsCopy,
-        totalCarbs: totalCarbsCopy,
-        totalFats: totalFatsCopy,
-        totalCalories: totalCaloriesCopy,
-        curWeigth: '100'
+        curWeigth: ""
       });
     };
 
@@ -10340,13 +10309,8 @@ var ProductInfo = function (_React$Component) {
       calories: '',
       newRow: [],
 
-      curWeigth: "100",
+      curWeigth: ""
 
-      totalMacro: [],
-      totalProteins: [],
-      totalCarbs: [],
-      totalFats: [],
-      totalCalories: []
     };
     return _this;
   }
@@ -10385,28 +10349,20 @@ var ProductInfo = function (_React$Component) {
         );
       });
 
-      var sumOfProteins = this.state.totalProteins.map(function (elem) {
-        return elem.totalProteins;
-      }).reduce(function (prev, curr) {
-        return prev + curr;
+      var sumOfProteins = this.state.newRow.reduce(function (prev, curr) {
+        return prev + curr.protein * (curr.weight / 100);
       }, 0);
 
-      var sumOfCarbs = this.state.totalCarbs.map(function (elem) {
-        return elem.totalCarbs;
-      }).reduce(function (prev, curr) {
-        return prev + curr;
+      var sumOfCarbs = this.state.newRow.reduce(function (prev, curr) {
+        return prev + curr.carbo * (curr.weight / 100);
       }, 0);
 
-      var sumOfFats = this.state.totalFats.map(function (elem) {
-        return elem.totalFats;
-      }).reduce(function (prev, curr) {
-        return prev + curr;
+      var sumOfFats = this.state.newRow.reduce(function (prev, curr) {
+        return prev + curr.fats * (curr.weight / 100);
       }, 0);
 
-      var sumOfCalories = this.state.totalCalories.map(function (elem) {
-        return elem.totalCalories;
-      }).reduce(function (prev, curr) {
-        return prev + curr;
+      var sumOfCalories = this.state.newRow.reduce(function (prev, curr) {
+        return prev + curr.calories * (curr.weight / 100);
       }, 0);
 
       var newData = this.state.newRow.map(function (elem, index) {
@@ -10502,27 +10458,27 @@ var ProductInfo = function (_React$Component) {
                 _react2.default.createElement(
                   'th',
                   null,
-                  'Product'
+                  'Produkt'
                 ),
                 _react2.default.createElement(
                   'th',
                   null,
-                  'Proteins'
+                  'Bia\u0142ko'
                 ),
                 _react2.default.createElement(
                   'th',
                   null,
-                  'Carbs'
+                  'W\u0119glowodany'
                 ),
                 _react2.default.createElement(
                   'th',
                   null,
-                  'Fats'
+                  'T\u0142uszcze'
                 ),
                 _react2.default.createElement(
                   'th',
                   null,
-                  'Calories'
+                  'Kalorie'
                 )
               )
             ),
@@ -23276,7 +23232,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Lato);", ""]);
 
 // module
-exports.push([module.i, "body {\n  font-family: 'Lato', sans-serif;\n}\n\n.tab {\n  width: 70vw;\n  border: 1px solid #4ea1d3;\n  float: right;\n  background: #d8e9ef;\n  color: #454552;\n}\n\n.table {\n\n}\n\n.table tbody tr:nth-child(even) {\n  background-color: #c9d6de;\n}\n\n.mainDiv {\n  margin: 2vh 2vw;\n}\n\n.mainBtnsContainer {\n  float:left;\n  display: flex;\n  flex-direction: column;\n  align-content: space-around;\n}\n\n.mainBtns {\n  font-family: 'Lato', sans-serif;\n  width: 25vw;\n  height: 3vh;\n  min-height: 20px;\n  color: #454552;\n  background: #d8e9ef;\n  border: 1px solid #4ea1d3;\n  margin-bottom: 2vh;\n}\n\n.mainBtns:hover{\n  border-bottom: 1px dashed #e85a71;\n  transform: scale(1.02);\n}\n\n.subBtn {\n  width: 25vw;\n  height: 4vh;\n  min-height: 25px;\n  color: #52616a;\n  background: #c9d6de;\n  border: 1px solid #1e2022;\n  transition: background 2s, color 2s;\n}\n\n.subBtn:hover {\n  background: #52616a;\n  color: #c9d6de;\n}\n\n.delBtn {\n  background: #dddfe6;\n  color: #f1404b;\n  border: none;\n  box-shadow: none;\n  transition: background 0.5s, color 0.5s;\n}\n\n.delBtn:hover {\n  background: #f1404b;\n  color: #dddfe6;\n}\n", ""]);
+exports.push([module.i, "body {\n  font-family: 'Lato', sans-serif;\n}\n\n.tab {\n  width: 70vw;\n  border: 1px solid #4ea1d3;\n  float: right;\n  background: #d8e9ef;\n  color: #454552;\n}\n\n.table tbody tr:nth-child(even) {\n  background-color: #c9d6de;\n}\n\n.mainDiv {\n  margin: 2vh 2vw;\n}\n\n.mainBtnsContainer {\n  float:left;\n  display: flex;\n  flex-direction: column;\n  align-content: space-around;\n}\n\n.mainBtns {\n  font-family: 'Lato', sans-serif;\n  width: 25vw;\n  height: 3vh;\n  min-height: 20px;\n  color: #454552;\n  background: #d8e9ef;\n  border: 1px solid #4ea1d3;\n  margin-bottom: 2vh;\n}\n\n.mainBtns:hover{\n  border-bottom: 1px dashed #e85a71;\n  transform: scale(1.02);\n}\n\n.subBtn {\n  width: 25vw;\n  height: 4vh;\n  min-height: 25px;\n  color: #52616a;\n  background: #c9d6de;\n  border: 1px solid #1e2022;\n  transition: background 2s, color 2s;\n}\n\n.subBtn:hover {\n  background: #52616a;\n  color: #c9d6de;\n}\n\n.delBtn {\n  background: #dddfe6;\n  color: #f1404b;\n  border: none;\n  box-shadow: none;\n  transition: background 0.5s, color 0.5s;\n}\n\n.delBtn:hover {\n  background: #f1404b;\n  color: #dddfe6;\n}\n", ""]);
 
 // exports
 

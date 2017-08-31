@@ -12,10 +12,6 @@ body {
   color: #454552;
 }
 
-.table {
-
-}
-
 .table tbody tr:nth-child(even) {
   background-color: #c9d6de;
 }

@@ -15,13 +15,9 @@ class ProductInfo extends React.Component {
       calories: '',
       newRow: [],
 
-      curWeigth: "100",
+      curWeigth: "",
 
-      totalMacro:[],
-      totalProteins: [],
-      totalCarbs: [],
-      totalFats: [],
-      totalCalories: [],
+
     }
   }
 
@@ -67,38 +63,6 @@ class ProductInfo extends React.Component {
   }
 
   handleSubClick = () => {
-    if(this.state.curWeigth === "" || this.state.curWeigth === 0){
-      this.setState({
-        curWeigth: 100
-      })
-    }
-
-  {/* Suma makro*/}
-    let totalProteinsCopy = this.state.totalProteins;
-    totalProteinsCopy.push({
-      totalProteins: this.state.protein,
-    })
-
-    let totalCarbsCopy = this.state.totalCarbs;
-    totalCarbsCopy.push({
-      totalCarbs: this.state.carbo,
-    })
-
-    let totalFatsCopy = this.state.totalFats;
-    totalFatsCopy.push({
-      totalFats: this.state.fats,
-    })
-
-    let totalCaloriesCopy = this.state.totalCalories;
-    totalCaloriesCopy.push({
-      totalCalories: this.state.calories,
-    })
-
-
-
-
-
-
   {/* Nowy wiersz*/}
     let data = this.state.newRow;
     data.push({
@@ -107,15 +71,11 @@ class ProductInfo extends React.Component {
         carbo: this.state.carbo,
         fats: this.state.fats,
         calories: this.state.calories,
-        weight: this.state.curWeigth,
+        weight: (this.state.curWeigth === "" || this.state.curWeigth === 0)?100:this.state.curWeigth,
       });
     this.setState({
       newRow: data,
-      totalProteins: totalProteinsCopy,
-      totalCarbs: totalCarbsCopy,
-      totalFats: totalFatsCopy,
-      totalCalories: totalCaloriesCopy,
-      curWeigth: '100',
+      curWeigth: "",
     });
   }
 
@@ -143,21 +103,17 @@ class ProductInfo extends React.Component {
       return <option key={index}>{item}</option>
     })
 
-    const sumOfProteins = this.state.totalProteins.map(elem  => {
-      return elem.totalProteins }).reduce((prev, curr) => {
-      return prev + curr },0);
+    const sumOfProteins = this.state.newRow.reduce((prev, curr) => {
+        return prev + (curr.protein * (curr.weight/100)) },0);
 
-    const sumOfCarbs = this.state.totalCarbs.map(elem  => {
-      return elem.totalCarbs }).reduce((prev, curr) => {
-      return prev + curr },0);
+    const sumOfCarbs = this.state.newRow.reduce((prev, curr) => {
+        return prev + (curr.carbo * (curr.weight/100)) },0);
 
-    const sumOfFats = this.state.totalFats.map(elem  => {
-      return elem.totalFats }).reduce((prev, curr) => {
-      return prev + curr },0);
+    const sumOfFats = this.state.newRow.reduce((prev, curr) => {
+        return prev + (curr.fats * (curr.weight/100)) },0);
 
-    const sumOfCalories = this.state.totalCalories.map(elem  => {
-      return elem.totalCalories }).reduce((prev, curr) => {
-      return prev + curr },0);
+    const sumOfCalories = this.state.newRow.reduce((prev, curr) => {
+        return prev + (curr.calories * (curr.weight/100)) },0);
 
     const newData = this.state.newRow.map((elem, index) => {
       return <tr key={index}>
@@ -201,11 +157,11 @@ class ProductInfo extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              <th>Product</th>
-              <th>Proteins</th>
-              <th>Carbs</th>
-              <th>Fats</th>
-              <th>Calories</th>
+              <th>Produkt</th>
+              <th>Białko</th>
+              <th>Węglowodany</th>
+              <th>Tłuszcze</th>
+              <th>Kalorie</th>
             </tr>
           </thead>
           <tbody>
