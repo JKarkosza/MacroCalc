@@ -1,9 +1,163 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
+@font-face{
+  font-family: 'Lato', sans-serif;
+  src: url('https://fonts.googleapis.com/css?family=Lato');
+}
 
 body {
   font-family: 'Lato', sans-serif;
+  box-sizing: border-box;
 }
 
+.mainPage {
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  background: #ede574;
+  background: -webkit-linear-gradient(to right, #ede574, #e1f5c4);
+  background: linear-gradient(to right, #ede574, #e1f5c4);
+}
+
+header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+}
+
+header>p {
+  color: rgba(0,0,0,.4);
+  font-weight: 900;
+  margin: 3vh 2vw;
+  font-size: 3rem;
+}
+
+header p:hover{
+  background: linear-gradient(to right, #1d976c, #93f9b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav ul{
+  font-size: 1.5rem;
+  color: rgba(0,0,0,.4);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 3vh 2vw 0 0;
+}
+
+.nav li{
+  margin-right: 1.5vh;
+  transition: border-bottom 500s;
+}
+
+.nav li:hover {
+  border-bottom: 1px solid red;
+}
+
+main {
+  width: 80vw;
+  margin: 0 10vw;
+}
+
+main h1 {
+  color: rgba(0,0,0,.6);
+  margin-top: 5vh;
+  font-size: 4rem;
+  border-bottom: 1px solid #a3de83;
+}
+
+.content {
+  border-bottom: 1px solid #a3de83;
+  height: 40vh;
+}
+
+.content p{
+  height: 30vh;
+  width: 45%;
+  color: rgba(0,0,0,.7);
+  line-height: 2rem;
+  display: inline-block;
+  margin-top: 3vh;
+}
+
+.content div {
+  display: inline-block;
+  width: 45%;
+  height: 100%;
+  float:right;
+  position: relative;
+}
+
+.content div div{
+  width: 3rem;
+  height: 3rem;
+  background: #a3de83;
+  border-radius: 50%;
+  position: absolute;
+  animation: ballDown 5s 1 ease-out;
+  visibility: hidden;
+  top: -44px;
+}
+
+@keyframes ballDown {
+  0%{top: -5vh; left:0%; visibility: visible;}
+  25%{top: 35vh; left:10%}
+  50%{top: 20vh; left: 30%}
+  65%{top: 35vh; left: 50%}
+  80%{top: 28vh; left: 70%}
+  90%{top: 35vh; left: 90%}
+  95%{top: 35vh; left: 95%}
+  100%{top: 60vh; left: 100%; visibility: hidden;}
+}
+
+.content::after{
+  clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*CALC*/
 .tab {
   width: 70vw;
   border: 1px solid #4ea1d3;
