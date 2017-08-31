@@ -49,11 +49,11 @@
       "Tłuszcze": "13,6",
       "Kcal": 201
     },
-    "Tuńczyk pucha": {
+    "Tuńczyk puszka": {
       "Białko": "23,5",
       "Węgle": "0,1",
       "Tłuszcze": "0,5",
-      "Kcal": ""
+      "Kcal": 103
     },
     "Soczewica": {
       "Białko": "25,4",
@@ -109,7 +109,7 @@
       "Tłuszcze": "60,3",
       "Kcal": 657
     },
-    "Kakao (łyżka  [10g])": {
+    "Kakao": {
       "Białko": "1,8",
       "Węgle": "5,1",
       "Tłuszcze": "2,2",
@@ -157,7 +157,7 @@
       "Tłuszcze": "0,2",
       "Kcal": 52
     },
-    "Miód (łyżka 25g)": {
+    "Miód": {
       "Białko": "0,3",
       "Węgle": "79,5",
       "Tłuszcze": 0,

@@ -10215,8 +10215,6 @@ module.exports = __webpack_require__(83);
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(84);
@@ -10226,6 +10224,8 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = __webpack_require__(100);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+__webpack_require__(186);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10243,25 +10243,107 @@ var ProductInfo = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ProductInfo.__proto__ || Object.getPrototypeOf(ProductInfo)).call(this, props));
 
-    _this.handleChange = function (event) {
-      var prote = _this.state.products[event.target.value]['Białko'];
-      if (typeof prote == 'string') {
-        prote.replace(',', '.');
-        console.log('done');
+    _this.parseDataToNumber = function (data) {
+      if (typeof data != 'number' && data !== 0) {
+        return parseFloat(data.replace(',', '.'));
       } else {
-        prote;
-        console.log('number');
+        return data;
       }
-      console.log(prote, typeof prote === 'undefined' ? 'undefined' : _typeof(prote));
+    };
 
-      // console.log(typeof this.state.products[event.target.value]['Białko']);
-      // console.log(parseFloat(this.state.products[event.target.value]['Białko'].replace(',','.')));
+    _this.handleChange = function (event) {
+      var item = event.target.value;
+      var prote = _this.state.products[event.target.value]['Białko'];
+      var carbs = _this.state.products[event.target.value]['Węgle'];
+      var fatos = _this.state.products[event.target.value]['Tłuszcze'];
+      var calories = _this.state.products[event.target.value]['Kcal'];
+
+      _this.setState({
+        item: item,
+        protein: _this.parseDataToNumber(prote),
+        carbo: _this.parseDataToNumber(carbs),
+        fats: _this.parseDataToNumber(fatos),
+        calories: calories
+      });
+    };
+
+    _this.handleWeightChange = function (event) {
+      var grams = event.target.value;
+      if (grams === '150') {
+        _this.setState({
+          protein: _this.state.protein * 1.5,
+          carbo: _this.state.carbo * 1.5,
+          fats: _this.state.fats * 1.5,
+          calories: _this.state.calories * 1.5
+        });
+      } else if (grams === '200') {
+        _this.setState({
+          protein: _this.state.protein * 2,
+          carbo: _this.state.carbo * 2,
+          fats: _this.state.fats * 2,
+          calories: _this.state.calories * 2
+        });
+      } else if (grams === '250') {
+        _this.setState({
+          protein: _this.state.protein * 2.5,
+          carbo: _this.state.carbo * 2.5,
+          fats: _this.state.fats * 2.5,
+          calories: _this.state.calories * 2.5
+        });
+      } else if (grams === '300') {
+        _this.setState({
+          protein: _this.state.protein * 3,
+          carbo: _this.state.carbo * 3,
+          fats: _this.state.fats * 3,
+          calories: _this.state.calories * 3
+        });
+      }
+    };
+
+    _this.handleSubClick = function () {
+
+      var data = _this.state.newRow;
+      data.push({
+        item: _this.state.item,
+        protein: _this.state.protein,
+        carbo: _this.state.carbo,
+        fats: _this.state.fats,
+        calories: _this.state.calories
+      });
+      _this.setState({
+        newRow: data,
+        totalProteins: _this.state.totalProteins + _this.state.protein,
+        totalCarbs: _this.state.totalCarbs + _this.state.carbo,
+        totalFats: _this.state.totalFats + _this.state.fats,
+        totalCalories: _this.state.totalCalories + _this.state.calories
+      });
+    };
+
+    _this.handleRemove = function (event) {
+
+      var newArr = _this.state.newRow.filter(function (value, key) {
+        console.log(key, '::', event.target.dataset.index, " :: ", !(key == event.target.dataset.index));
+        return !(key == event.target.dataset.index);
+      }, 1);
+      console.log(newArr);
+      _this.setState({
+        newRow: newArr
+      });
     };
 
     _this.state = {
       products: [],
-      loading: true
-
+      loading: true,
+      item: '',
+      protein: '',
+      carbo: '',
+      fats: '',
+      calories: '',
+      newRow: [],
+      totalProteins: 0,
+      totalCarbs: 0,
+      totalFats: 0,
+      totalCalories: 0
     };
     return _this;
   }
@@ -10278,13 +10360,13 @@ var ProductInfo = function (_React$Component) {
           products: data,
           loading: false
         });
-        console.log(_this2.state.products);
-        // console.log(parseFloat(this.state.products[0]['Białko']));
       });
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       if (this.state.products.length == 0) {
         return null;
       }
@@ -10292,7 +10374,6 @@ var ProductInfo = function (_React$Component) {
       for (var prod in this.state.products) {
         prodList.push(prod);
       }
-      console.log(prodList);
       var optList = prodList.map(function (item, index) {
         return _react2.default.createElement(
           'option',
@@ -10300,19 +10381,185 @@ var ProductInfo = function (_React$Component) {
           item
         );
       });
-      var subStyle = { width: '25vw', height: '50px', marginTop: '2vh' };
+
+      var newData = this.state.newRow.map(function (elem, index) {
+        return _react2.default.createElement(
+          'tr',
+          { key: index },
+          _react2.default.createElement(
+            'td',
+            null,
+            elem.item
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            elem.protein.toFixed(1)
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            elem.carbo.toFixed(1)
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            elem.fats.toFixed(1)
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            elem.calories
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            _react2.default.createElement(
+              'button',
+              {
+                'data-index': index,
+                onClick: _this3.handleRemove,
+                className: 'delBtn' },
+              'X'
+            )
+          )
+        );
+      });
+
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'mainDiv' },
         _react2.default.createElement(
-          'select',
-          { onChange: this.handleChange, style: { height: '50px', width: '25vw' } },
-          optList
+          'div',
+          { className: 'mainBtnsContainer' },
+          _react2.default.createElement(
+            'select',
+            { onChange: this.handleChange, className: 'mainBtns' },
+            _react2.default.createElement(
+              'option',
+              { defaultValue: 'Wybierz produkt' },
+              'Wybierz produkt'
+            ),
+            optList
+          ),
+          _react2.default.createElement(
+            'select',
+            { onChange: this.handleWeightChange, className: 'mainBtns' },
+            _react2.default.createElement(
+              'option',
+              { value: '100', defaultValue: true },
+              '100 gram'
+            ),
+            _react2.default.createElement(
+              'option',
+              { value: '150' },
+              '150 gram'
+            ),
+            _react2.default.createElement(
+              'option',
+              { value: '200' },
+              '200 gram'
+            ),
+            _react2.default.createElement(
+              'option',
+              { value: '250' },
+              '250 gram'
+            ),
+            _react2.default.createElement(
+              'option',
+              { value: '300' },
+              '300 gram'
+            )
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              type: 'submit',
+              onClick: this.handleSubClick,
+              className: 'subBtn',
+              disabled: !this.state.item
+            },
+            'Dodaj'
+          )
         ),
         _react2.default.createElement(
-          'button',
-          { type: 'submit', style: subStyle },
-          'Dodaj'
+          'div',
+          { className: 'table-responsive tab' },
+          _react2.default.createElement(
+            'table',
+            { className: 'table' },
+            _react2.default.createElement(
+              'thead',
+              null,
+              _react2.default.createElement(
+                'tr',
+                null,
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Product'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Proteins'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Carbs'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Fats'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Calories'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'tbody',
+              null,
+              newData
+            ),
+            _react2.default.createElement(
+              'tfoot',
+              null,
+              _react2.default.createElement(
+                'tr',
+                null,
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  'Suma'
+                ),
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  this.state.totalProteins.toFixed(1)
+                ),
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  this.state.totalCarbs.toFixed(1)
+                ),
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  this.state.totalFats.toFixed(1)
+                ),
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  this.state.totalCalories
+                )
+              )
+            )
+          )
         )
       );
     }
@@ -10321,83 +10568,8 @@ var ProductInfo = function (_React$Component) {
   return ProductInfo;
 }(_react2.default.Component);
 
-var Calc = function (_React$Component2) {
-  _inherits(Calc, _React$Component2);
-
-  function Calc(props) {
-    _classCallCheck(this, Calc);
-
-    var _this3 = _possibleConstructorReturn(this, (Calc.__proto__ || Object.getPrototypeOf(Calc)).call(this, props));
-
-    _this3.state = {
-      proteins: '',
-      carbo: '',
-      fats: '',
-      kcal: ''
-    };
-    return _this3;
-  }
-
-  _createClass(Calc, [{
-    key: 'render',
-    value: function render() {
-      var calcStyle = {
-        float: 'right',
-        width: '70vw',
-        height: '50vh',
-        border: '1px solid black',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'space-around',
-        justifyContent: 'space-around'
-      };
-
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Kalkulator makroelement\xF3w'
-        ),
-        _react2.default.createElement(
-          'div',
-          { style: calcStyle },
-          _react2.default.createElement(
-            'div',
-            null,
-            'Produkt'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            'B'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            'W'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            'T'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            'Kcal'
-          )
-        )
-      );
-    }
-  }]);
-
-  return Calc;
-}(_react2.default.Component);
-
-var App = function (_React$Component3) {
-  _inherits(App, _React$Component3);
+var App = function (_React$Component2) {
+  _inherits(App, _React$Component2);
 
   function App() {
     _classCallCheck(this, App);
@@ -10411,7 +10583,6 @@ var App = function (_React$Component3) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(Calc, null),
         _react2.default.createElement(ProductInfo, null)
       );
     }
@@ -23059,6 +23230,587 @@ var ReactDOMInvalidARIAHook = {
 
 module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(187);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(189)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./node_modules/css-loader/index.js!./style.css", function() {
+			var newContent = require("!!./node_modules/css-loader/index.js!./style.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(188)(undefined);
+// imports
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Lato);", ""]);
+
+// module
+exports.push([module.i, "body {\n  font-family: 'Lato', sans-serif;\n}\n\n.tab {\n  width: 70vw;\n  border: 1px solid #4ea1d3;\n  float: right;\n  background: #d8e9ef;\n  color: #454552;\n}\n\n.table {\n\n}\n\n.table tbody tr:nth-child(even) {\n  background-color: #c9d6de;\n}\n\n.mainDiv {\n  margin: 2vh 2vw;\n}\n\n.mainBtnsContainer {\n  float:left;\n  display: flex;\n  flex-direction: column;\n  align-content: space-around;\n}\n\n.mainBtns {\n  font-family: 'Lato', sans-serif;\n  width: 25vw;\n  height: 3vh;\n  min-height: 20px;\n  color: #454552;\n  background: #d8e9ef;\n  border: 1px solid #4ea1d3;\n  margin-bottom: 2vh;\n}\n\n.mainBtns:hover{\n  border-bottom: 1px dashed #e85a71;\n  transform: scale(1.02);\n}\n\n.subBtn {\n  width: 25vw;\n  height: 4vh;\n  min-height: 25px;\n  color: #52616a;\n  background: #c9d6de;\n  border: 1px solid #1e2022;\n  transition: background 2s, color 2s;\n}\n\n.subBtn:hover {\n  background: #52616a;\n  color: #c9d6de;\n}\n\n.delBtn {\n  background: #dddfe6;\n  color: #f1404b;\n  border: none;\n  box-shadow: none;\n  transition: background 0.5s, color 0.5s;\n}\n\n.delBtn:hover {\n  background: #f1404b;\n  color: #dddfe6;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(190);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
 
 /***/ })
 /******/ ]);

@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+.tab {
+  width: 70vw;
+  border: 1px solid #4ea1d3;
+  float: right;
+  background: #d8e9ef;
+  color: #454552;
+}
+
+.table {
+
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #c9d6de;
+}
+
+.mainDiv {
+  margin: 2vh 2vw;
+}
+
+.mainBtnsContainer {
+  float:left;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.mainBtns {
+  font-family: 'Lato', sans-serif;
+  width: 25vw;
+  height: 3vh;
+  min-height: 20px;
+  color: #454552;
+  background: #d8e9ef;
+  border: 1px solid #4ea1d3;
+  margin-bottom: 2vh;
+}
+
+.mainBtns:hover{
+  border-bottom: 1px dashed #e85a71;
+  transform: scale(1.02);
+}
+
+.subBtn {
+  width: 25vw;
+  height: 4vh;
+  min-height: 25px;
+  color: #52616a;
+  background: #c9d6de;
+  border: 1px solid #1e2022;
+  transition: background 2s, color 2s;
+}
+
+.subBtn:hover {
+  background: #52616a;
+  color: #c9d6de;
+}
+
+.delBtn {
+  background: #dddfe6;
+  color: #f1404b;
+  border: none;
+  box-shadow: none;
+  transition: background 0.5s, color 0.5s;
+}
+
+.delBtn:hover {
+  background: #f1404b;
+  color: #dddfe6;
+}

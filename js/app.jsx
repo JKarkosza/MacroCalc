@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../style.css';
 
 class ProductInfo extends React.Component {
   constructor(props){
@@ -7,7 +8,16 @@ class ProductInfo extends React.Component {
     this.state ={
       products:[],
       loading: true,
-
+      item: '',
+      protein: '',
+      carbo: '',
+      fats: '',
+      calories: '',
+      newRow: [],
+      totalProteins: 0,
+      totalCarbs: 0,
+      totalFats: 0,
+      totalCalories: 0,
     }
   }
 
@@ -19,28 +29,103 @@ class ProductInfo extends React.Component {
           products: data,
           loading: false,
         })
-        console.log(this.state.products);
-        // console.log(parseFloat(this.state.products[0]['Białko']));
-
       })
   }
 
-  handleChange = (event) => {
-    const prote = this.state.products[event.target.value]['Białko']
-    if(typeof prote == 'string'){
-       prote.replace(',','.');
-       console.log('done');
-    }else {
-        prote;
-       console.log('number');
-    }
-    console.log(prote, typeof prote);
 
-    // console.log(typeof this.state.products[event.target.value]['Białko']);
-    // console.log(parseFloat(this.state.products[event.target.value]['Białko'].replace(',','.')));
+  parseDataToNumber = (data) => {
+    if( typeof data != 'number' && data !== 0 ){
+      return parseFloat(data.replace(',','.'));
+    }else {
+      return data;
+    }
   }
 
+  handleChange = (event) => {
+    const item = event.target.value;
+    const prote = this.state.products[event.target.value]['Białko'];
+    const carbs = this.state.products[event.target.value]['Węgle'];
+    const fatos = this.state.products[event.target.value]['Tłuszcze'];
+    const calories = this.state.products[event.target.value]['Kcal'];
+
+     this.setState({
+       item: item,
+       protein: this.parseDataToNumber(prote),
+       carbo: this.parseDataToNumber(carbs),
+       fats: this.parseDataToNumber(fatos),
+       calories: calories,
+     });
+  }
+
+  handleWeightChange = (event) => {
+    const grams = event.target.value;
+    if(grams === '150'){
+      this.setState({
+        protein: this.state.protein * 1.5,
+        carbo: this.state.carbo * 1.5,
+        fats: this.state.fats * 1.5,
+        calories: this.state.calories * 1.5,
+      })
+    }else if(grams === '200'){
+      this.setState({
+        protein: this.state.protein * 2,
+        carbo: this.state.carbo * 2,
+        fats: this.state.fats * 2,
+        calories: this.state.calories * 2,
+      })
+    }else if(grams === '250'){
+      this.setState({
+        protein: this.state.protein * 2.5,
+        carbo: this.state.carbo * 2.5,
+        fats: this.state.fats * 2.5,
+        calories: this.state.calories * 2.5,
+      })
+    }else if(grams === '300'){
+      this.setState({
+        protein: this.state.protein * 3,
+        carbo: this.state.carbo * 3,
+        fats: this.state.fats * 3,
+        calories: this.state.calories * 3,
+      })
+    }
+  }
+
+  handleSubClick = () => {
+
+    let data = this.state.newRow;
+    data.push({
+        item: this.state.item,
+        protein: this.state.protein,
+        carbo: this.state.carbo,
+        fats: this.state.fats,
+        calories: this.state.calories,
+      });
+    this.setState({
+      newRow: data,
+      totalProteins: this.state.totalProteins + this.state.protein,
+      totalCarbs: this.state.totalCarbs + this.state.carbo,
+      totalFats: this.state.totalFats + this.state.fats,
+      totalCalories: this.state.totalCalories + this.state.calories,
+    });
+  }
+
+  handleRemove = (event) => {
+
+    let newArr = this.state.newRow.filter((value,key)=>{
+                    console.log(key, '::', event.target.dataset.index, " :: ",!(key == event.target.dataset.index));
+                    return !(key == event.target.dataset.index);
+                },1);
+    console.log(newArr);
+    this.setState({
+      newRow: newArr,
+    })
+
+  }
+
+
+
   render(){
+
     if(this.state.products.length == 0){
       return null;
     }
@@ -48,63 +133,79 @@ class ProductInfo extends React.Component {
     for (let prod in this.state.products){
       prodList.push(prod);
     }
-    console.log(prodList);
     const optList = prodList.map((item, index) => {
       return <option key={index}>{item}</option>
     })
-    const subStyle = {width: '25vw', height:'50px', marginTop:'2vh'}
-    return <div>
-      <select onChange={this.handleChange} style={{height:'50px', width:'25vw'}}>
-        {optList}
-      </select>
-      <button type='submit' style={subStyle}>Dodaj</button>
+
+    const newData = this.state.newRow.map((elem, index) => {
+      return <tr key={index}>
+        <td>{elem.item}</td>
+        <td>{elem.protein.toFixed(1)}</td>
+        <td>{elem.carbo.toFixed(1)}</td>
+        <td>{elem.fats.toFixed(1)}</td>
+        <td>{elem.calories}</td>
+        <td><button
+          data-index={index}
+          onClick={this.handleRemove}
+          className="delBtn">X</button></td>
+      </tr>
+    })
+
+    return <div className="mainDiv">
+      <div className="mainBtnsContainer" >
+        <select onChange={this.handleChange} className="mainBtns">
+          <option defaultValue="Wybierz produkt">
+            Wybierz produkt</option>
+          {optList}
+        </select>
+        <select onChange={this.handleWeightChange} className="mainBtns">
+          <option value="100" defaultValue>100 gram</option>
+          <option value="150">150 gram</option>
+          <option value="200">200 gram</option>
+          <option value="250">250 gram</option>
+          <option value="300">300 gram</option>
+        </select>
+        <button
+          type='submit'
+          onClick={this.handleSubClick}
+          className="subBtn"
+          disabled={!this.state.item}
+          >Dodaj</button>
+      </div>
+
+      <div className="table-responsive tab">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Proteins</th>
+              <th>Carbs</th>
+              <th>Fats</th>
+              <th>Calories</th>
+            </tr>
+          </thead>
+          <tbody>
+            {newData}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Suma</td>
+              <td>{this.state.totalProteins.toFixed(1)}</td>
+              <td>{this.state.totalCarbs.toFixed(1)}</td>
+              <td>{this.state.totalFats.toFixed(1)}</td>
+              <td>{this.state.totalCalories}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
+
   }
 }
-
-class Calc extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      proteins: '',
-      carbo: '',
-      fats:'',
-      kcal: '',
-    }
-  }
-
-  render(){
-    const calcStyle = {
-      float:'right',
-      width:'70vw',
-      height:'50vh',
-      border:'1px solid black',
-      display:'flex',
-      flexDirection:'row',
-      alignItems: 'space-around',
-      justifyContent: 'space-around',
-      }
-
-    return <div>
-            <h1>Kalkulator makroelementów</h1>
-            <div style={calcStyle}>
-              <div>Produkt</div>
-              <div>B</div>
-              <div>W</div>
-              <div>T</div>
-              <div>Kcal</div>
-
-            </div>
-          </div>
-  }
-}
-
-
 
 class App extends React.Component {
   render(){
     return <div>
-        <Calc/>
         <ProductInfo />
     </div>
   }
