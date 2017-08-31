@@ -14,10 +14,14 @@ class ProductInfo extends React.Component {
       fats: '',
       calories: '',
       newRow: [],
-      totalProteins: 0,
-      totalCarbs: 0,
-      totalFats: 0,
-      totalCalories: 0,
+
+      curWeigth: "100",
+
+      totalMacro:[],
+      totalProteins: [],
+      totalCarbs: [],
+      totalFats: [],
+      totalCalories: [],
     }
   }
 
@@ -31,7 +35,6 @@ class ProductInfo extends React.Component {
         })
       })
   }
-
 
   parseDataToNumber = (data) => {
     if( typeof data != 'number' && data !== 0 ){
@@ -58,40 +61,45 @@ class ProductInfo extends React.Component {
   }
 
   handleWeightChange = (event) => {
-    const grams = event.target.value;
-    if(grams === '150'){
       this.setState({
-        protein: this.state.protein * 1.5,
-        carbo: this.state.carbo * 1.5,
-        fats: this.state.fats * 1.5,
-        calories: this.state.calories * 1.5,
+        curWeigth: event.target.value
       })
-    }else if(grams === '200'){
-      this.setState({
-        protein: this.state.protein * 2,
-        carbo: this.state.carbo * 2,
-        fats: this.state.fats * 2,
-        calories: this.state.calories * 2,
-      })
-    }else if(grams === '250'){
-      this.setState({
-        protein: this.state.protein * 2.5,
-        carbo: this.state.carbo * 2.5,
-        fats: this.state.fats * 2.5,
-        calories: this.state.calories * 2.5,
-      })
-    }else if(grams === '300'){
-      this.setState({
-        protein: this.state.protein * 3,
-        carbo: this.state.carbo * 3,
-        fats: this.state.fats * 3,
-        calories: this.state.calories * 3,
-      })
-    }
   }
 
   handleSubClick = () => {
+    if(this.state.curWeigth === "" || this.state.curWeigth === 0){
+      this.setState({
+        curWeigth: 100
+      })
+    }
 
+  {/* Suma makro*/}
+    let totalProteinsCopy = this.state.totalProteins;
+    totalProteinsCopy.push({
+      totalProteins: this.state.protein,
+    })
+
+    let totalCarbsCopy = this.state.totalCarbs;
+    totalCarbsCopy.push({
+      totalCarbs: this.state.carbo,
+    })
+
+    let totalFatsCopy = this.state.totalFats;
+    totalFatsCopy.push({
+      totalFats: this.state.fats,
+    })
+
+    let totalCaloriesCopy = this.state.totalCalories;
+    totalCaloriesCopy.push({
+      totalCalories: this.state.calories,
+    })
+
+
+
+
+
+
+  {/* Nowy wiersz*/}
     let data = this.state.newRow;
     data.push({
         item: this.state.item,
@@ -99,27 +107,25 @@ class ProductInfo extends React.Component {
         carbo: this.state.carbo,
         fats: this.state.fats,
         calories: this.state.calories,
+        weight: this.state.curWeigth,
       });
     this.setState({
       newRow: data,
-      totalProteins: this.state.totalProteins + this.state.protein,
-      totalCarbs: this.state.totalCarbs + this.state.carbo,
-      totalFats: this.state.totalFats + this.state.fats,
-      totalCalories: this.state.totalCalories + this.state.calories,
+      totalProteins: totalProteinsCopy,
+      totalCarbs: totalCarbsCopy,
+      totalFats: totalFatsCopy,
+      totalCalories: totalCaloriesCopy,
+      curWeigth: '100',
     });
   }
 
   handleRemove = (event) => {
-
     let newArr = this.state.newRow.filter((value,key)=>{
-                    console.log(key, '::', event.target.dataset.index, " :: ",!(key == event.target.dataset.index));
                     return !(key == event.target.dataset.index);
                 },1);
-    console.log(newArr);
     this.setState({
       newRow: newArr,
     })
-
   }
 
 
@@ -137,17 +143,34 @@ class ProductInfo extends React.Component {
       return <option key={index}>{item}</option>
     })
 
+    const sumOfProteins = this.state.totalProteins.map(elem  => {
+      return elem.totalProteins }).reduce((prev, curr) => {
+      return prev + curr },0);
+
+    const sumOfCarbs = this.state.totalCarbs.map(elem  => {
+      return elem.totalCarbs }).reduce((prev, curr) => {
+      return prev + curr },0);
+
+    const sumOfFats = this.state.totalFats.map(elem  => {
+      return elem.totalFats }).reduce((prev, curr) => {
+      return prev + curr },0);
+
+    const sumOfCalories = this.state.totalCalories.map(elem  => {
+      return elem.totalCalories }).reduce((prev, curr) => {
+      return prev + curr },0);
+
     const newData = this.state.newRow.map((elem, index) => {
       return <tr key={index}>
         <td>{elem.item}</td>
-        <td>{elem.protein.toFixed(1)}</td>
-        <td>{elem.carbo.toFixed(1)}</td>
-        <td>{elem.fats.toFixed(1)}</td>
-        <td>{elem.calories}</td>
+        <td>{(elem.protein * (elem.weight/100)).toFixed(1)}</td>
+        <td>{(elem.carbo * (elem.weight/100)).toFixed(1)}</td>
+        <td>{(elem.fats * (elem.weight/100)).toFixed(1)}</td>
+        <td>{elem.calories * (elem.weight/100)}</td>
         <td><button
           data-index={index}
           onClick={this.handleRemove}
-          className="delBtn">X</button></td>
+          className="delBtn"
+          >X</button></td>
       </tr>
     })
 
@@ -155,16 +178,17 @@ class ProductInfo extends React.Component {
       <div className="mainBtnsContainer" >
         <select onChange={this.handleChange} className="mainBtns">
           <option defaultValue="Wybierz produkt">
-            Wybierz produkt</option>
+            Wybierz produkt
+          </option>
           {optList}
         </select>
-        <select onChange={this.handleWeightChange} className="mainBtns">
-          <option value="100" defaultValue>100 gram</option>
-          <option value="150">150 gram</option>
-          <option value="200">200 gram</option>
-          <option value="250">250 gram</option>
-          <option value="300">300 gram</option>
-        </select>
+        <input
+          type="number"
+          placeholder="Wpisz wagę produktu"
+          value={this.state.curWeigth}
+          onChange={this.handleWeightChange}
+          className="mainBtns"/>
+
         <button
           type='submit'
           onClick={this.handleSubClick}
@@ -190,10 +214,10 @@ class ProductInfo extends React.Component {
           <tfoot>
             <tr>
               <td>Suma</td>
-              <td>{this.state.totalProteins.toFixed(1)}</td>
-              <td>{this.state.totalCarbs.toFixed(1)}</td>
-              <td>{this.state.totalFats.toFixed(1)}</td>
-              <td>{this.state.totalCalories}</td>
+              <td>{sumOfProteins.toFixed(2)}</td>
+              <td>{sumOfCarbs.toFixed(2)}</td>
+              <td>{sumOfFats.toFixed(2)}</td>
+              <td>{sumOfCalories}</td>
             </tr>
           </tfoot>
         </table>

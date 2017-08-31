@@ -10268,64 +10268,63 @@ var ProductInfo = function (_React$Component) {
     };
 
     _this.handleWeightChange = function (event) {
-      var grams = event.target.value;
-      if (grams === '150') {
-        _this.setState({
-          protein: _this.state.protein * 1.5,
-          carbo: _this.state.carbo * 1.5,
-          fats: _this.state.fats * 1.5,
-          calories: _this.state.calories * 1.5
-        });
-      } else if (grams === '200') {
-        _this.setState({
-          protein: _this.state.protein * 2,
-          carbo: _this.state.carbo * 2,
-          fats: _this.state.fats * 2,
-          calories: _this.state.calories * 2
-        });
-      } else if (grams === '250') {
-        _this.setState({
-          protein: _this.state.protein * 2.5,
-          carbo: _this.state.carbo * 2.5,
-          fats: _this.state.fats * 2.5,
-          calories: _this.state.calories * 2.5
-        });
-      } else if (grams === '300') {
-        _this.setState({
-          protein: _this.state.protein * 3,
-          carbo: _this.state.carbo * 3,
-          fats: _this.state.fats * 3,
-          calories: _this.state.calories * 3
-        });
-      }
+      _this.setState({
+        curWeigth: event.target.value
+      });
     };
 
     _this.handleSubClick = function () {
+      if (_this.state.curWeigth === "" || _this.state.curWeigth === 0) {
+        _this.setState({
+          curWeigth: 100
+        });
+      }
 
+      {/* Suma makro*/}
+      var totalProteinsCopy = _this.state.totalProteins;
+      totalProteinsCopy.push({
+        totalProteins: _this.state.protein
+      });
+
+      var totalCarbsCopy = _this.state.totalCarbs;
+      totalCarbsCopy.push({
+        totalCarbs: _this.state.carbo
+      });
+
+      var totalFatsCopy = _this.state.totalFats;
+      totalFatsCopy.push({
+        totalFats: _this.state.fats
+      });
+
+      var totalCaloriesCopy = _this.state.totalCalories;
+      totalCaloriesCopy.push({
+        totalCalories: _this.state.calories
+      });
+
+      {/* Nowy wiersz*/}
       var data = _this.state.newRow;
       data.push({
         item: _this.state.item,
         protein: _this.state.protein,
         carbo: _this.state.carbo,
         fats: _this.state.fats,
-        calories: _this.state.calories
+        calories: _this.state.calories,
+        weight: _this.state.curWeigth
       });
       _this.setState({
         newRow: data,
-        totalProteins: _this.state.totalProteins + _this.state.protein,
-        totalCarbs: _this.state.totalCarbs + _this.state.carbo,
-        totalFats: _this.state.totalFats + _this.state.fats,
-        totalCalories: _this.state.totalCalories + _this.state.calories
+        totalProteins: totalProteinsCopy,
+        totalCarbs: totalCarbsCopy,
+        totalFats: totalFatsCopy,
+        totalCalories: totalCaloriesCopy,
+        curWeigth: '100'
       });
     };
 
     _this.handleRemove = function (event) {
-
       var newArr = _this.state.newRow.filter(function (value, key) {
-        console.log(key, '::', event.target.dataset.index, " :: ", !(key == event.target.dataset.index));
         return !(key == event.target.dataset.index);
       }, 1);
-      console.log(newArr);
       _this.setState({
         newRow: newArr
       });
@@ -10340,10 +10339,14 @@ var ProductInfo = function (_React$Component) {
       fats: '',
       calories: '',
       newRow: [],
-      totalProteins: 0,
-      totalCarbs: 0,
-      totalFats: 0,
-      totalCalories: 0
+
+      curWeigth: "100",
+
+      totalMacro: [],
+      totalProteins: [],
+      totalCarbs: [],
+      totalFats: [],
+      totalCalories: []
     };
     return _this;
   }
@@ -10382,6 +10385,30 @@ var ProductInfo = function (_React$Component) {
         );
       });
 
+      var sumOfProteins = this.state.totalProteins.map(function (elem) {
+        return elem.totalProteins;
+      }).reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+
+      var sumOfCarbs = this.state.totalCarbs.map(function (elem) {
+        return elem.totalCarbs;
+      }).reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+
+      var sumOfFats = this.state.totalFats.map(function (elem) {
+        return elem.totalFats;
+      }).reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+
+      var sumOfCalories = this.state.totalCalories.map(function (elem) {
+        return elem.totalCalories;
+      }).reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+
       var newData = this.state.newRow.map(function (elem, index) {
         return _react2.default.createElement(
           'tr',
@@ -10394,22 +10421,22 @@ var ProductInfo = function (_React$Component) {
           _react2.default.createElement(
             'td',
             null,
-            elem.protein.toFixed(1)
+            (elem.protein * (elem.weight / 100)).toFixed(1)
           ),
           _react2.default.createElement(
             'td',
             null,
-            elem.carbo.toFixed(1)
+            (elem.carbo * (elem.weight / 100)).toFixed(1)
           ),
           _react2.default.createElement(
             'td',
             null,
-            elem.fats.toFixed(1)
+            (elem.fats * (elem.weight / 100)).toFixed(1)
           ),
           _react2.default.createElement(
             'td',
             null,
-            elem.calories
+            elem.calories * (elem.weight / 100)
           ),
           _react2.default.createElement(
             'td',
@@ -10419,7 +10446,8 @@ var ProductInfo = function (_React$Component) {
               {
                 'data-index': index,
                 onClick: _this3.handleRemove,
-                className: 'delBtn' },
+                className: 'delBtn'
+              },
               'X'
             )
           )
@@ -10442,35 +10470,12 @@ var ProductInfo = function (_React$Component) {
             ),
             optList
           ),
-          _react2.default.createElement(
-            'select',
-            { onChange: this.handleWeightChange, className: 'mainBtns' },
-            _react2.default.createElement(
-              'option',
-              { value: '100', defaultValue: true },
-              '100 gram'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: '150' },
-              '150 gram'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: '200' },
-              '200 gram'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: '250' },
-              '250 gram'
-            ),
-            _react2.default.createElement(
-              'option',
-              { value: '300' },
-              '300 gram'
-            )
-          ),
+          _react2.default.createElement('input', {
+            type: 'number',
+            placeholder: 'Wpisz wag\u0119 produktu',
+            value: this.state.curWeigth,
+            onChange: this.handleWeightChange,
+            className: 'mainBtns' }),
           _react2.default.createElement(
             'button',
             {
@@ -10540,22 +10545,22 @@ var ProductInfo = function (_React$Component) {
                 _react2.default.createElement(
                   'td',
                   null,
-                  this.state.totalProteins.toFixed(1)
+                  sumOfProteins.toFixed(2)
                 ),
                 _react2.default.createElement(
                   'td',
                   null,
-                  this.state.totalCarbs.toFixed(1)
+                  sumOfCarbs.toFixed(2)
                 ),
                 _react2.default.createElement(
                   'td',
                   null,
-                  this.state.totalFats.toFixed(1)
+                  sumOfFats.toFixed(2)
                 ),
                 _react2.default.createElement(
                   'td',
                   null,
-                  this.state.totalCalories
+                  sumOfCalories
                 )
               )
             )
