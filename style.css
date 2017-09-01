@@ -75,6 +75,7 @@ main h1 {
 .content {
   border-bottom: 1px solid #a3de83;
   height: 40vh;
+  position: relative;
 }
 
 .content p{
@@ -86,7 +87,7 @@ main h1 {
   margin-top: 3vh;
 }
 
-.content div {
+/*.content div {
   display: inline-block;
   width: 45%;
   height: 100%;
@@ -114,12 +115,57 @@ main h1 {
   90%{top: 35vh; left: 90%}
   95%{top: 35vh; left: 95%}
   100%{top: 60vh; left: 100%; visibility: hidden;}
-}
+}*/
 
 .content::after{
   clear: both;
 }
 
+.content>div{
+  width: 10vh;
+  height: 10vh;
+  border: 5px solid #a3de83;
+  position: absolute;
+  display: inline-block;
+  top: 35%;
+  left: 70%;
+}
+
+.content div div:first-of-type{
+  width: 10vh;
+  height: 10vh;
+  background: #38817a;
+  position: absolute;
+  top: 59%;
+  left: 59%;
+  animation: roundSq1 4s infinite linear;
+}
+
+@keyframes roundSq1 {
+  0%{top:59%; left:59%; }
+  25%{top:-59%; left:59%;}
+  50%{top:-59%; left:-59%;}
+  75%{top:59%; left:-59%;}
+  100%{top:59%; left:59%;}
+}
+
+.content div div:last-of-type{
+  width: 10vh;
+  height: 10vh;
+  background: #346473;
+  position: absolute;
+  top: -59%;
+  left: -59%;
+  animation: roundSq2 4s infinite linear;
+}
+
+@keyframes roundSq2 {
+  0%{top:-59%; left:-59%;}
+  25%{top:59%; left:-59%;}
+  50%{top:59%; left:59%;}
+  75%{top:-59%; left:59%;}
+  100%{top:-59%; left:-59%;}
+}
 
 
 
